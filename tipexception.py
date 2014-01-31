@@ -1,32 +1,42 @@
-from tip_calculator_as_functions import calculate_rate 
-from tip_calculator_as_functions import calculate_meal_costs 
 import sys
+ 
+def calculate_rate(base, percentage):
+    return base * percentage
+ 
+def calculate_meal_costs(meal_base, tax_rate, tip_rate):
+    """
+    Calculates dollar amounts for tax, tip, and total meal cost
+    """
+    tax_value = calculate_rate(meal_base, tax_rate)
+    meal_with_tax = tax_value + meal_base
+    tip_value = calculate_rate(meal_with_tax, tip_rate)
+    total = meal_with_tax + tip_value
+    meal_info = dict(meal_base=meal_base,
+                    tax_rate=tax_rate,
+                    tip_rate=tip_rate,
+                    tax_value=tax_value,
+                    total = total)
+    return meal_info
+ 
+def main():
+    try:
+        meal = float(sys.argv[1])
+        tax = float(sys.argv[2])
+        tip = float(sys.argv[3])
+        
+    except ValueError:
+        meal = float(raw_input("Re-enter the cost of your meal: $"))
+        tax = float(raw_input("Re-enter tax rate as a decimal (e.g., .12, not 12%): "))
+        tip = float(raw_input("Reenter how much would you like to tip? (e.g., .20): "))
 
+    meal_info = calculate_meal_costs(meal,tax,tip)
+     
+    print "The base cost of your meal was ${0:.2f}.".format(meal_info['meal_base'])
+    print "You need to pay ${0:.2f} for tax.".format(meal_info['tax_value'])
+    print "Tipping at a rate of {0}%, you should leave ${1:.2f} for a tip.".format(
+                                        float(100*meal_info['tip_rate']), 
+                                        meal_info['tax_value'])
+    print "The grand total of your meal is ${0:.2f}.".format(meal_info['total'])
 
-try:
-	meal = float(sys.argv[1])
-	tax = float(sys.argv[2])
-	tip = float(sys.argv[3])
-	tax_value = meal * tax
-	meal_with_tax = meal + (tax_value)
-	tip_value = tip * (meal_with_tax)
-	total = meal_with_tax + tip_value
-	calculate_meal_costs(meal,tax,tip)
-	print "Meal: ${:.2f}".format(meal)
-	print "Tax: ${:.2f}".format(tax_value)
-	print "Tip: ${:.2f}".format(tip_value)
-	print "Total: ${:.2f}".format(total)
-except ValueError: 
-	meal = float(raw_input("Please enter a number for meal cost: "))
-	tax = float(raw_input("Please enter a number for tax rate: "))
-	tip = float(raw_input("Please enter a number for tip: "))
-	tax_value = meal * tax
-	meal_with_tax = meal + (tax_value)
-	tip_value = tip * (meal_with_tax)
-	total = meal_with_tax + tip_value
-	calculate_meal_costs(meal,tax,tip)
-	print "Meal: ${:.2f}".format(meal)
-	print "Tax: ${:.2f}".format(tax_value)
-	print "Tip: ${:.2f}".format(tip_value)
-	print "Total: ${:.2f}".format(total)
-
+if __name__ == '__main__':
+    main()
