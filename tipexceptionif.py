@@ -19,26 +19,28 @@ def calculate_meal_costs(meal_base, tax_rate, tip_rate):
     return meal_info
  
 def main():
+    try:
         meal = float(sys.argv[1])
         tax = float(sys.argv[2])
         tip = float(sys.argv[3])
-	while True:
-	    	try:
-		        meal = float(raw_input("Re-enter the cost of your meal: $"))
-		        tax = float(raw_input("Re-enter tax rate as a decimal (e.g., .12, not 12%): "))
-		        tip = float(raw_input("Reenter how much would you like to tip? (e.g., .20): "))
-		        break
-	        except ValueError:
-	        	print "\nOops! That was not a valid number. Try again.\n"
+    except ValueError:
+    	while True:
+    	    	try:
+    		        meal = float(raw_input("Re-enter the cost of your meal: $"))
+    		        tax = float(raw_input("Re-enter tax rate as a decimal (e.g., .12, not 12%): "))
+    		        tip = float(raw_input("Reenter how much would you like to tip? (e.g., .20): "))
+    		        break
+    	        except ValueError:
+    	        	print "\nOops! That was not a valid number. Try again.\n"
 
-	meal_info = calculate_meal_costs(meal,tax,tip)
-     
-	print "The base cost of your meal was ${0:.2f}.".format(meal_info['meal_base'])
-	print "You need to pay ${0:.2f} for tax.".format(meal_info['tax_value'])
-	print "Tipping at a rate of {0}%, you should leave ${1:.2f} for a tip.".format(
-	                                    float(100*meal_info['tip_rate']), 
-	                                    meal_info['tax_value'])
-	print "The grand total of your meal is ${0:.2f}.".format(meal_info['total'])
+    	meal_info = calculate_meal_costs(meal,tax,tip)
+         
+    	print "The base cost of your meal was ${0:.2f}.".format(meal_info['meal_base'])
+    	print "You need to pay ${0:.2f} for tax.".format(meal_info['tax_value'])
+    	print "Tipping at a rate of {0}%, you should leave ${1:.2f} for a tip.".format(
+    	                                    float(100*meal_info['tip_rate']), 
+    	                                    meal_info['tax_value'])
+    	print "The grand total of your meal is ${0:.2f}.".format(meal_info['total'])
 
 if __name__ == '__main__':
     main()
